@@ -1,6 +1,7 @@
+#!/usr/bin/env python
 # encoding: utf-8
 
-# Defination of binary tree
+# binary tree traversal
 import random
 from collections import deque
 from drawtree import draw_level_order
@@ -99,12 +100,19 @@ def postorder_iterative(root):
     """post-order traversal by iterative method"""
     stack = []
     while stack or root:
-        while root:
+        #  while root:
+            #  stack.append(root)
+            #  if root.left:
+                #  root = root.left
+            #  else:
+                #  root = root.right
+        if root:
             stack.append(root)
             if root.left:
                 root = root.left
             else:
                 root = root.right
+            continue
         root = stack.pop()
         yield root
         if stack and stack[-1].left == root:
