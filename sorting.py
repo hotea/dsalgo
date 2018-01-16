@@ -1,5 +1,4 @@
 # encoding=utf8
-
 import random
 
 def build_a_random_sequence(length=10):
@@ -48,8 +47,24 @@ def exchange_and_select_sort(seq):
     return seq
 
 def quick_sort(seq):
-
-    pass
+    def quick_rec(seq, lo, hi):
+        if lo > hi:
+            return
+        left = lo
+        right = hi
+        while left < right:
+            while seq[right] >= seq[lo] and left < right:
+                right -= 1
+            while seq[left] <= seq[lo] and left < right:
+                left += 1
+            #  if left < right:
+            seq[left], seq[right] = seq[right], seq[left]
+        seq[lo], seq[left] = seq[left] , seq[lo]
+        print(seq)
+        quick_rec(seq, lo, left-1)
+        quick_rec(seq, left+1, hi)
+    quick_rec(seq, 0, len(seq)-1)
+    return seq
 
 
 
@@ -60,6 +75,5 @@ if __name__ == '__main__':
     #  print('insert sort: {}'.format(insert_sort(seq)))
     #  print('select sort: {}'.format(select_sort(seq)))
     #  print('bubble sort: {}'.format(bubble_sort(seq)))
-    print('exchange_and_select sort: {}'.format(exchange_and_select_sort(seq)))
-    #  print('quick sort: {}'.format(quick_sort(seq)))
-
+    #  print('exchange_and_select sort: {}'.format(exchange_and_select_sort(seq)))
+    print('quick sort: {}'.format(quick_sort(seq)))
