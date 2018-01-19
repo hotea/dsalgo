@@ -109,6 +109,29 @@ def quick_sort1(seq):
     return seq
 
 
+def quick_sort2(seq):
+    """
+    reference: https://visualgo.net/en/sorting
+    """
+    def quick_rec(seq, lo, hi):
+        if lo > hi:
+            return
+        left = lo + 1
+        right = hi
+        store_index = left
+        while left <= right:
+            if seq[left] < seq[lo]:
+                seq[left], seq[store_index] = seq[store_index], seq[left]
+                store_index += 1
+            left += 1
+        seq[lo], seq[store_index-1] = seq[store_index-1], seq[lo]
+        print(seq)
+        quick_rec(seq, store_index, hi)
+        quick_rec(seq, lo, store_index-2)
+    quick_rec(seq, 0, len(seq)-1)
+    return seq
+
+
 if __name__ == '__main__':
     seq = build_a_random_sequence()
     print('original sequence: {}'.format(seq))
@@ -117,4 +140,5 @@ if __name__ == '__main__':
     #  print('bubble sort: {}'.format(bubble_sort(seq)))
     #  print('exchange_and_select sort: {}'.format(exchange_and_select_sort(seq)))
     # print('quick sort: {}'.format(quick_sort(seq)))
-    print('quick sort1: {}'.format(quick_sort1(seq)))
+    # print('quick sort1: {}'.format(quick_sort1(seq)))
+    print('quick sort2: {}'.format(quick_sort2(seq)))
