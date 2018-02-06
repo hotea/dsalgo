@@ -137,9 +137,20 @@ def level_iterative(root):
             #result.append(NONE_NODE)
     #return result
 
+
+def depth_recursive(root):
+    """the depth of the tree"""
+    def deprec(root):
+        if not root:
+            return 0
+        return max(deprec(root.left)+1, deprec(root.right)+1)
+    return deprec(root) - 1
+
+
 def format_for_drawtree(node_list):
     result_str = ','.join([str(item) for item in node_list])
     return '{' + result_str + '}'
+
 
 if __name__ == '__main__':
     t = build_a_random_bintree()
@@ -147,22 +158,25 @@ if __name__ == '__main__':
     level_order_list = list(level_iterative(t))
     print('the tree is:')
     draw_level_order(format_for_drawtree(level_order_list))
-    print('level order node value list is:{}'.format(level_order_list))
+    # print('level order node value list is:{}'.format(level_order_list))
 
-    pre_order_recursive_list = list(preorder_recursive(t))
-    print('pre order recursive node value list is:{}'.format(pre_order_recursive_list))
+    # pre_order_recursive_list = list(preorder_recursive(t))
+    # print('pre order recursive node value list is:{}'.format(pre_order_recursive_list))
 
-    pre_order_iterative_list = list(preoder_iterative(t))
-    print('pre order iterative node value list is:{}'.format(pre_order_iterative_list))
+    # pre_order_iterative_list = list(preoder_iterative(t))
+    # print('pre order iterative node value list is:{}'.format(pre_order_iterative_list))
 
-    in_order_recursive_list = list(inorder_recursive(t))
-    print('in order recursive node value list is:{}'.format(in_order_recursive_list))
+    # in_order_recursive_list = list(inorder_recursive(t))
+    # print('in order recursive node value list is:{}'.format(in_order_recursive_list))
 
-    in_order_iterative_list = list(inorder_iterative(t))
-    print('in order iterative node value list is:{}'.format(in_order_iterative_list))
+    # in_order_iterative_list = list(inorder_iterative(t))
+    # print('in order iterative node value list is:{}'.format(in_order_iterative_list))
 
-    post_order_recursive_list = list(postorder_recursive(t))
-    print('post order recursive node value list is:{}'.format(post_order_recursive_list))
+    # post_order_recursive_list = list(postorder_recursive(t))
+    # print('post order recursive node value list is:{}'.format(post_order_recursive_list))
 
-    post_order_iterative_list = list(postorder_iterative(t))
-    print('post order iterative node value list is:{}'.format(post_order_iterative_list))
+    # post_order_iterative_list = list(postorder_iterative(t))
+    # print('post order iterative node value list is:{}'.format(post_order_iterative_list))
+
+    depth = depth_recursive(t)
+    print('depth by recursive is:{}'.format(depth))
