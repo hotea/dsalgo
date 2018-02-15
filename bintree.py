@@ -86,6 +86,24 @@ def inorder_iterative(root):
             yield root
             root = root.right
 
+def inorder_morris(root):
+    """in-order morris traversal"""
+    while root:
+        if not root.left:
+            yield root
+            root = root.right
+        else:
+            pre = root.left
+            while pre.right and pre.right != root:
+                pre = pre.right
+            if not pre.right:
+                pre.right = root
+                root = root.left
+            else:
+                pre.right = None
+                yield root
+                root = root.right
+
 
 def postorder_recursive(root):
     """post-order traversal by recursive"""
@@ -138,13 +156,17 @@ def level_iterative(root):
     #return result
 
 
-def depth_recursive(root):
-    """the depth of the tree"""
-    def deprec(root):
+def height_recursive(root):
+    """the height of the tree
+    https://stackoverflow.com/questions/2603692/what-is-the-difference-between-tree-depth-and-height
+    """
+    def highrec(root):
         if not root:
             return 0
-        return max(deprec(root.left)+1, deprec(root.right)+1)
-    return deprec(root) - 1
+        highleft = highrec(root.left) + 1 if root.left else 0
+        highright = highrec(root.right) + 1 if root.right else 0
+        return max(highleft, highright)
+    return highrec(root)
 
 
 def format_for_drawtree(node_list):
@@ -172,11 +194,14 @@ if __name__ == '__main__':
     # in_order_iterative_list = list(inorder_iterative(t))
     # print('in order iterative node value list is:{}'.format(in_order_iterative_list))
 
+    in_order_morris_list = list(inorder_morris(t))
+    print('in order morris node value list is:{}'.format(in_order_morris_list))
+
     # post_order_recursive_list = list(postorder_recursive(t))
     # print('post order recursive node value list is:{}'.format(post_order_recursive_list))
 
     # post_order_iterative_list = list(postorder_iterative(t))
     # print('post order iterative node value list is:{}'.format(post_order_iterative_list))
 
-    depth = depth_recursive(t)
-    print('depth by recursive is:{}'.format(depth))
+    # height = height_recursive(t)
+    # print('height by recursive is:{}'.format(height))
