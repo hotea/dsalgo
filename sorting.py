@@ -132,6 +132,54 @@ def quick_sort2(seq):
     return seq
 
 
+def merge_sort(seq):
+    if len(seq) <= 1:
+        return list(seq)
+    def merge(seql, seqr):
+        merged_seq = []
+        i = j = k = 0
+        while i < len(seql) or j < len(seqr):
+            if seql[i] < seqr[j]:
+                merged_seq[k] = seql[i]
+            else:
+                merged_seq[k] = seqr[j]
+    merge(seq, 0, len(seq)-1)
+    return seq
+
+def merge_sort1(seq):
+    """
+    https://visualgo.net/en/sorting?slide=10
+    """
+    def merge_recursive(sequence, low, high):
+        if low < high:
+            mid = (low+high) // 2
+            merge_recursive(sequence, low, mid)
+            merge_recursive(sequence, mid+1, high)
+            merge(sequence, low, mid, high)
+    def merge(sequence, low, mid, high):
+        left = low
+        right = mid + 1
+        tmp = []
+        while left <= mid and right <= high:
+            if sequence[left] < sequence[right]:
+                tmp.append(sequence[left])
+                left += 1
+            else:
+                tmp.append(sequence[right])
+                right += 1
+        while left <= mid:
+            tmp.append(sequence[left])
+            left += 1
+        while right <= high:
+            tmp.append(sequence[right])
+            right += 1
+        sequence[low:high+1] = tmp
+        print(sequence)
+    seq = list(seq)
+    merge_recursive(seq, 0, len(seq)-1)
+    return seq
+        
+
 if __name__ == '__main__':
     seq = build_a_random_sequence()
     print('original sequence: {}'.format(seq))
@@ -141,4 +189,6 @@ if __name__ == '__main__':
     #  print('exchange_and_select sort: {}'.format(exchange_and_select_sort(seq)))
     # print('quick sort: {}'.format(quick_sort(seq)))
     # print('quick sort1: {}'.format(quick_sort1(seq)))
-    print('quick sort2: {}'.format(quick_sort2(seq)))
+    # print('quick sort2: {}'.format(quick_sort2(seq)))
+    #  print('merge sort: {}'.format(merge_sort(seq)))
+    print('merge sort1: {}'.format(merge_sort1(seq)))
