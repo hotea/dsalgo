@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding=utf8
 import random
+from collections import deque
 
 
 def build_a_random_sequence(length=10):
@@ -133,18 +134,22 @@ def quick_sort2(seq):
 
 
 def merge_sort(seq):
+    """
+    reference: https://zh.wikipedia.org/wiki/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F
+    """
     if len(seq) <= 1:
         return list(seq)
     def merge(seql, seqr):
-        merged_seq = []
-        i = j = k = 0
-        while i < len(seql) or j < len(seqr):
-            if seql[i] < seqr[j]:
-                merged_seq[k] = seql[i]
-            else:
-                merged_seq[k] = seqr[j]
-    merge(seq, 0, len(seq)-1)
-    return seq
+        merged_seq, seql, seqr = deque(), deque(seql), deque(seqr)
+        while seql and seqr:
+            merged_seq.append(seql.popleft() if seql[0] < seqr[0] else seqr.popleft())
+        merged_seq.extend(seql if seql else seqr)
+        return list(merged_seq)
+    mid = len(seq) // 2
+    left_seq = merge_sort(seq[:mid])
+    right_seq = merge_sort(seq[mid:])
+    return merge(left_seq, right_seq)
+
 
 def merge_sort1(seq):
     """
@@ -190,5 +195,5 @@ if __name__ == '__main__':
     # print('quick sort: {}'.format(quick_sort(seq)))
     # print('quick sort1: {}'.format(quick_sort1(seq)))
     # print('quick sort2: {}'.format(quick_sort2(seq)))
-    #  print('merge sort: {}'.format(merge_sort(seq)))
-    print('merge sort1: {}'.format(merge_sort1(seq)))
+    print('merge sort: {}'.format(merge_sort(seq)))
+    # print('merge sort1: {}'.format(merge_sort1(seq)))
