@@ -22,10 +22,43 @@ class LongestIncreasingSubsequence(unittest.TestCase):
                     result[i] = max(result[i], result[j]+1)
         return max(result)
 
+    def lengthOfLIS1(self, nums):
+        """O(logn) time complexity
+        reference: https://www.geeksforgeeks.org/longest-monotonically-increasing-subsequence-size-n-log-n/
+        """
+        if not nums:
+            return 0
+        tailtable = [0] * len(nums)
+        tailtable[0] = nums[0]
+        tail_index = 0
+        for i in range(1, len(nums)):
+            if nums[i] > tailtable[tail_index]:
+                tailtable[tail_index+1] = nums[i]
+                tail_index += 1
+            else:
+                l = 0
+                r = tail_index 
+                while l < r:
+                    m = (l + r) // 2
+                    if tailtable[m] < nums[i]:
+                        l = m + 1
+                    else:
+                        r = m
+                tailtable[l] = nums[i]
+            print(tailtable)
+            print(tail_index)
+        return tail_index + 1
+
     def test_lis(self):
         self.assertEqual(self.lengthOfLIS([]), 0)
         self.assertEqual(self.lengthOfLIS([1]), 1)
         self.assertEqual(self.lengthOfLIS([1, 3, 2, 4]), 3)
+
+    def test_lis1(self):
+        self.assertEqual(self.lengthOfLIS1([]), 0)
+        self.assertEqual(self.lengthOfLIS1([1]), 1)
+        self.assertEqual(self.lengthOfLIS1([1, 3, 2, 4]), 3)
+        self.assertEqual(self.lengthOfLIS1([10,9,2,5,3,7,101,18]), 4)
 
 
 
