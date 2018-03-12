@@ -1,16 +1,18 @@
 #!/usr/bin/env python
 # encoding: utf-8
 import unittest
+from typing import List
+
 
 class LongestIncreasingSubsequence(unittest.TestCase):
     """最长递增子序列
+    question: https://leetcode.com/problems/longest-increasing-subsequence/description/
     """
-    def lengthOfLIS(self, nums: int) -> int:
+    def lengthOfLIS(self, nums: List[int]) -> int:
         """
         :type nums: List[int]
         :rtype: int
 
-        question: https://leetcode.com/problems/longest-increasing-subsequence/description/
         explaination: https://www.youtube.com/watch?v=CE2b_-XfVDk
         """
         if not nums:
@@ -61,7 +63,43 @@ class LongestIncreasingSubsequence(unittest.TestCase):
         self.assertEqual(self.lengthOfLIS1([10,9,2,5,3,7,101,18]), 4)
 
 
+class CoinChange(unittest.TestCase):
+    """兑换零钱最少需要的硬币数量，相同面值硬币可重复使用
+    https://leetcode.com/problems/coin-change/description/
+    """
+    def coin_change(self, coins: List[int], amount: int) -> int:
+        """
+        :type coins: List[int]
+        :type amount: int
+        :rtype: int
+        """
+        MAX = float('inf')
+        dp = [0] + [MAX] * amount
+        for i in range(1, amount+1):
+            for denomination in coins:
+                if i >= denomination:
+                    dp[i] = min(dp[i], dp[i-denomination]+1)
+        return [dp[-1], -1][dp[-1] == MAX]
+
+    def test_coin_change(self):
+        self.assertEqual(self.coin_change([1, 2, 5], 11), 3)
+        self.assertEqual(self.coin_change([2], 3), -1)
+
+
 
 
 if __name__ == '__main__':
-    unittest.main()
+    # unittest.main()
+    suite = unittest.TestSuite()
+
+    tests_lis = [LongestIncreasingSubsequence("test_lis")]
+    tests_lis1 = [LongestIncreasingSubsequence("test_lis1")]
+    tests_coin_change = [CoinChange("test_coin_change")]
+
+    # suite.addTests(tests_lis)
+    # suite.addTests(tests_lis1)
+    suite.addTests(tests_coin_change)
+
+
+    runner = unittest.TextTestRunner(verbosity=2)
+    runner.run(suite)
