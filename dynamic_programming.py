@@ -60,7 +60,7 @@ class LongestIncreasingSubsequence(unittest.TestCase):
         self.assertEqual(self.lengthOfLIS1([]), 0)
         self.assertEqual(self.lengthOfLIS1([1]), 1)
         self.assertEqual(self.lengthOfLIS1([1, 3, 2, 4]), 3)
-        self.assertEqual(self.lengthOfLIS1([10,9,2,5,3,7,101,18]), 4)
+        self.assertEqual(self.lengthOfLIS1([10, 9, 2, 5, 3, 7, 101, 18]), 4)
 
 
 class CoinChange(unittest.TestCase):
@@ -86,6 +86,23 @@ class CoinChange(unittest.TestCase):
         self.assertEqual(self.coin_change([2], 3), -1)
 
 
+class CuttingRod(unittest.TestCase):
+    """Given a rod of length and prices at which different length of 
+    this rod can sell, how do you cut this rod to maximize profit
+    gfg: https://www.geeksforgeeks.org/dynamic-programming-set-13-cutting-a-rod/
+    explaination: https://www.youtube.com/watch?v=IRwVmTmN6go
+    """
+    def cutting_rod(self, prices: List[int], length: int) -> int:
+        dp = [0] * (length + 1)
+        for i, p in enumerate(prices):
+            i += 1
+            for j in range(1, length+1):
+                if j >= i:
+                    dp[j] = max(dp[j], dp[j-i]+p)
+        return dp[-1]
+
+    def test_solution(self):
+        self.assertEqual(self.cutting_rod([1, 5, 8, 9, 10, 17, 17, 20], 8), 22)
 
 
 if __name__ == '__main__':
@@ -95,10 +112,12 @@ if __name__ == '__main__':
     tests_lis = [LongestIncreasingSubsequence("test_lis")]
     tests_lis1 = [LongestIncreasingSubsequence("test_lis1")]
     tests_coin_change = [CoinChange("test_coin_change")]
+    tests_cutting_rod = [CuttingRod("test_solution")]
 
     # suite.addTests(tests_lis)
     # suite.addTests(tests_lis1)
-    suite.addTests(tests_coin_change)
+    #  suite.addTests(tests_coin_change)
+    suite.addTests(tests_cutting_rod)
 
 
     runner = unittest.TextTestRunner(verbosity=2)
