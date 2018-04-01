@@ -105,6 +105,26 @@ class CuttingRod(unittest.TestCase):
         self.assertEqual(self.cutting_rod([1, 5, 8, 9, 10, 17, 17, 20], 8), 22)
 
 
+class CoinsInALine(unittest.TestCase):
+    """
+    leetcode article: https://articles.leetcode.com/coins-in-line/
+    gfg: https://www.geeksforgeeks.org/dynamic-programming-set-31-optimal-strategy-for-a-game/
+    explaination: https://www.youtube.com/watch?v=WxpIHvsu1RI
+    """
+    def coins_in_a_line(self, coins: List[int]) -> int:
+        length = len(coins)
+        dp = [[0] * length for _ in length]
+        for i in range(length):
+            for j in range(length):
+                left = coins[i] + min(dp[i+2][j], dp[i+1][j-1])
+                right = coins[j] + min(dp[i+1][j-1], dp[i][j-2])
+                dp[i][j] = max(left, right)
+
+
+    def test_solution(self):
+        self.assertEqual(self.coins_in_a_line([8, 15, 3, 7]), 22)
+
+
 if __name__ == '__main__':
     # unittest.main()
     suite = unittest.TestSuite()
@@ -113,11 +133,13 @@ if __name__ == '__main__':
     tests_lis1 = [LongestIncreasingSubsequence("test_lis1")]
     tests_coin_change = [CoinChange("test_coin_change")]
     tests_cutting_rod = [CuttingRod("test_solution")]
+    tests_coins_in_a_line = [CoinsInALine("test_solution")]
 
     # suite.addTests(tests_lis)
     # suite.addTests(tests_lis1)
     #  suite.addTests(tests_coin_change)
-    suite.addTests(tests_cutting_rod)
+    #  suite.addTests(tests_cutting_rod)
+    suite.addTests(tests_coins_in_a_line)
 
 
     runner = unittest.TextTestRunner(verbosity=2)
